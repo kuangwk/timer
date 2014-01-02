@@ -53,6 +53,7 @@ Timer.prototype.remove = function(id) {
   }
 }
 
+//test
 var timer = new Timer()
 timer.set('keke', 1000, function(){ console.log('a') })
 timer.set('*', 500, function(){
