@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  press F12 to see the result
+  <script src='../timer.js'></script>
+  <script>
+    //test
+    var timer = new Timer()
+
+    //'set' API returns a timer
+    console.time('set-event:time')
+    var setTimer = timer.set('set-event', 1000, function(){
+      console.timeEnd('set-event:time')
+    })
+    console.log(setTimer)
+
+    console.time('reset-event:time')
+    timer.set('reset-event', 1000, function(){ 
+      console.timeEnd('reset-event:time')
+    })
+
+    timer.set('cleared-event', 1000, function(){
+      console.log('cleared. Would not be logged out')
+    })
+
+    //reset 'reset'  
+    timer.set('*', 500, function(){
+      console.log('reset first')
+      timer.set('reset-event')
+    })
+
+    timer.set('*', 800, function(){
+      console.log('reset second')
+      timer.set('reset-event', 1200)
+    })
+
+    //cleare 'cleare'
+    timer.set("*", 300, function(){
+      console.log('clear')
+      timer.clear('cleared-event')
+    })
+
+  </script>
+</body>
+</html>

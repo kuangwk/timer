@@ -3,13 +3,12 @@ set:
   description: 
   param: String id, [Time(ms)] time, [Function] callback
 
-remove: 
+clear: 
   description: 
   param: String id
   
 */ 
-
-function uuid (){
+var uuid = function() { 
   return ('' + Math.random() + Date.now()).replace(/^0\./g, '')
 }
 
@@ -20,13 +19,14 @@ function TimerItem(time, callback) {
 }
 
 TimerItem.prototype.set = function(time, callback) {
-  this.remove()
+  this.clear()
   this.time = time || this.time || 0
   this.callback = callback || this.callback || function(){} 
   this.timer = setTimeout(this.callback, this.time)
+  return this.timer
 }
 
-TimerItem.prototype.remove = function() {
+TimerItem.prototype.clear = function() {
   if (this.timer) {
     clearTimeout(this.timer, this.callback)
   }
@@ -43,24 +43,14 @@ Timer.prototype.set = function(id, time, callback) {
   if (!(timerItem = this.timers[id])) {
     this.timers[id] = new TimerItem(time, callback)
   } 
-  this.timers[id].set(time, callback)
+  return this.timers[id].set(time, callback)
 }
 
-Timer.prototype.remove = function(id) {
-  //TODO: '*' => remove all
+Timer.prototype.clear = function(id) {
+  //TODO: '*' => clear all
   if(timerItem = this.timers[id]) {
-    timerItem.remove()
+    timerItem.clear()
   }
 }
 
-//test
-var timer = new Timer()
-timer.set('keke', 1000, function(){ console.log('a') })
-timer.set('*', 500, function(){
-  console.log('reset')
-  timer.set('keke', 2000)
-})
-timer.set("*", 700, function(){
-  console.log('remove')
-  timer.remove('keke')
-})
+
