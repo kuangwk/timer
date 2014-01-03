@@ -25,7 +25,10 @@ remove:
   * description: will clear `timer[id]`
 
 usage
------
+----- 
+    //init
+    timer = new Timer()
+
 set: 
     
     // create or overwrite
